@@ -1,0 +1,11 @@
+#!/bin/sh
+
+__dirname="$(dirname "$(realpath "$0")")"
+. "${__dirname}/context"
+
+gpg --fingerprint "${keyprint}" > /dev/null
+if test "$?" != "0"
+then
+  echo "installing signing key"
+  curl https://keybase.io/hashicorp/key.asc | gpg --import
+fi

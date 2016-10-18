@@ -1,40 +1,45 @@
 #!/bin/sh
 
-. ./vars
+__dirname="$(dirname "$(realpath "$0")")"
+. "${__dirname}/context"
 
-mkdir -p .downloads
-cd .downloads
-if ! test -e ${PACKER_FILENAME}
+mkdir -p "${downloads}"
+cd "${downloads}"
+
+# download compressed binary, checksum, and signature
+if ! test -e "${zipfile}"
 then
-  echo "downloading packer"
-  curl -Os https://releases.hashicorp.com/packer/${PACKER_VERSION}/${PACKER_FILENAME}
-  curl -Os https://releases.hashicorp.com/packer/${PACKER_VERSION}/${PACKER_NAME}_SHA256SUMS
-  curl -Os https://releases.hashicorp.com/packer/${PACKER_VERSION}/${PACKER_NAME}_SHA256SUMS.sig
-  gpg --verify ${PACKER_NAME}_SHA256SUMS.sig ${PACKER_NAME}_SHA256SUMS
-  if test "$?" != "0"; then echo "packer sha256sums signature not valid"; exit -1; fi
-  cat ${PACKER_NAME}_SHA256SUMS | grep ${PACKER_FILENAME} | shasum -a 256 -c -
-  if test "$?" != "0"; then echo "packer sha256sums don't match"; exit -1; fi
+  echo "downloading ${zipfile}"
+  curl -O "https://${host}/${name}/${version}/${zipfile}"
 fi
-if ! test -e ${TERRAFORM_FILENAME}
+
+if ! test -e "${sumfile}"
 then
-  echo "downloading terraform"
-  curl -Os https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/${TERRAFORM_FILENAME}
-  curl -Os https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/${TERRAFORM_NAME}_SHA256SUMS
-  curl -Os https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/${TERRAFORM_NAME}_SHA256SUMS.sig
-  gpg --verify ${TERRAFORM_NAME}_SHA256SUMS.sig ${TERRAFORM_NAME}_SHA256SUMS
-  if test "$?" != "0"; then echo "terraform sha256sums signature not valid"; exit -1; fi
-  cat ${TERRAFORM_NAME}_SHA256SUMS | grep ${TERRAFORM_FILENAME} | shasum -a 256 -c -
-  if test "$?" != "0"; then echo "terraform sha256sums don't match"; exit -1; fi
+  echo "downloading ${sumfile}"
+  curl -O "https://${host}/${name}/${version}/${sumfile}"
 fi
-if ! test -e ${VAULT_FILENAME}
+
+if ! test -e "${sigfile}"
 then
-  echo "downloading vault"
-  curl -Os https://releases.hashicorp.com/vault/${VAULT_VERSION}/${VAULT_FILENAME}
-  curl -Os https://releases.hashicorp.com/vault/${VAULT_VERSION}/${VAULT_NAME}_SHA256SUMS
-  curl -Os https://releases.hashicorp.com/vault/${VAULT_VERSION}/${VAULT_NAME}_SHA256SUMS.sig
-  gpg --verify ${VAULT_NAME}_SHA256SUMS.sig ${VAULT_NAME}_SHA256SUMS
-  if test "$?" != "0"; then echo "vault sha256sums signature not valid"; exit -1; fi
-  cat ${VAULT_NAME}_SHA256SUMS | grep ${VAULT_FILENAME} | shasum -a 256 -c -
-  if test "$?" != "0"; then echo "vault sha256sums don't match"; exit -1; fi
+  echo "downloading ${sigfile}"
+  curl -O "https://${host}/${name}/${version}/${sigfile}"
 fi
-cd ..
+
+# verify checksum with signature
+echo "verifying ${sumfile} with ${sigfile}"
+gpg --verify "${sigfile}" "${sumfile}"
+if test "$?" != "0"
+then
+  echo "${name} signature doesn't match key"
+  exit 1
+fi
+
+# verify compressed binary with checksum
+cat "${sumfile}" | grep "${zipfile}" | shasum -a "${sha}" -c -
+if test "$?" != "0"
+then
+  echo "${name} binary doesn't match sha${sha}sum"
+  exit 1
+fi
+
+cd "${cwd}"

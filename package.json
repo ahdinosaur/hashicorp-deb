@@ -1,14 +1,12 @@
 {
   "name": "hashicorp-deb",
-  "version": "1.0.0",
-  "description": ".deb packages for Hashicorp ecosystem",
-  "scripts": {
-    "key": "curl https://keybase.io/hashicorp/key.asc | gpg --import",
-    "download": "./download",
-    "build": "./build",
-    "package": "./package",
-    "install": "./install",
-    "start": "npm run key && npm run download && npm run build && npm run package && npm run install"
+  "description": "helper scripts to build .deb packages for Hashicorp ecosystem",
+  "bin": {
+    "hashicorp-deb:key": "./key",
+    "hashicorp-deb:download": "./download",
+    "hashicorp-deb:build": "./build",
+    "hashicorp-deb:package": "./package",
+    "hashicorp-deb:install": "./install"
   },
   "repository": {
     "type": "git",

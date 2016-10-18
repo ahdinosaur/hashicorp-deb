@@ -1,0 +1,38 @@
+#!/bin/sh
+
+export cwd="$(pwd)"
+export __dirname="$(dirname "$(realpath "$0")")"
+
+export os="linux"
+export arch="amd64"
+
+export name="$(jq -r '.name' package.json)"
+export version="$(jq -r '.version' package.json)"
+export description="$(jq -r '.description' package.json)"
+export maintainer="$(jq -r '.author' package.json)"
+
+export host="releases.hashicorp.com"
+export keyuid="HashiCorp Security <security@hashicorp.com>"
+export keyprint="91A6 E7F8 5D05 C656 30BE  F189 5185 2D87 348F FC4C"
+export binpath='/usr/bin'
+export sha='256'
+
+export zipfile="${name}_${version}_${os}_${arch}.zip"
+export sumfile="${name}_${version}_SHA${sha}SUMS"
+export sigfile="${name}_${version}_SHA${sha}SUMS.sig"
+
+export builds="${cwd}/.builds"
+export downloads="${cwd}/.downloads"
+export packages="${cwd}/.packages"
+
+if ! hash curl dpkg jq 2>/dev/null ; then
+  echo "Enter your password to install dependencies"
+  sudo -v
+  if [ `uname` == 'Darwin' ]; then
+    brew install curl dpkg jq
+  elif [ `uname` == 'Linux' ]; then
+    sudo apt-get curl install dpkg jq
+  else
+    fail "dpkg and jq is required"
+  fi
+fi
