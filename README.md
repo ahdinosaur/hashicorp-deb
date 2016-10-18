@@ -1,18 +1,18 @@
 # hashicorp-deb
 
-Debian packages (`.deb` files) for the [Hashicorp ecosystem](https://releases.hashicorp.com):
+helper scripts to build Debian packages (`.deb` files) for the [Hashicorp ecosystem](https://releases.hashicorp.com):
 
 - [ ] [`vagrant`](https://www.vagrantup.com): there's already `.deb` files [here](https://releases.hashicorp.com/vagrant/)
-- [x] [`packer`](https://www.packer.io/)
-- [x] [`terraform`](https://www.terraform.io)
-- [x] [`vault`](https://www.vaultproject.io)
+- [x] [`packer`](https://www.packer.io/): [`ahdinosaur/debian-packer`](https://github.com/ahdinosaur/debian-packer)
+- [x] [`terraform`](https://www.terraform.io): [`ahdinosaur/debian-terraform`](https://github.com/ahdinosaur/debian-terraform)
+- [x] [`vault`](https://www.vaultproject.io): [`ahdinosaur/debian-vault`](https://github.com/ahdinosaur/debian-vault)
 - [ ] [`consul`](https://www.consul.io)
 - [ ] [`nomad`](https://www.nomadproject.io/)
 - [ ] [`serf`](https://www.serf.io/)
 
 ## scripts
 
-configuration of package versions is stored in `./vars`
+common configuration is shared in `./context`
 
 ### `key`
 
@@ -43,3 +43,9 @@ in `.packages`:
 ### `install`
 
 - uses `dpkg` to install `.deb` files
+
+## dependencies
+
+- `curl`
+- `jq`
+- `dpkg`
