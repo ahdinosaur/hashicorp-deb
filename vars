@@ -1,0 +1,12 @@
+#!/bin/sh
+
+export OS="linux"
+export ARCH="amd64"
+
+export PACKER_VERSION="0.10.2"
+export PACKER_NAME="packer_${PACKER_VERSION}"
+export PACKER_FILENAME="packer_${PACKER_VERSION}_${OS}_${ARCH}.zip"
+
+export TERRAFORM_VERSION="0.7.6"
+export TERRAFORM_NAME="terraform_${TERRAFORM_VERSION}"
+export TERRAFORM_FILENAME="terraform_${TERRAFORM_VERSION}_${OS}_${ARCH}.zip"

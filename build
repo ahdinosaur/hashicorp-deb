@@ -1,0 +1,28 @@
+#!/bin/sh
+
+. ./vars
+
+mkdir -p .builds
+cd .builds
+
+# packer
+mkdir -p packer/${PACKER_NAME}
+sudo chown -R $USER:$USER packer/${PACKER_NAME}
+rm -rf packer/${PACKER_NAME}/*
+mkdir -p packer/${PACKER_NAME}/DEBIAN
+sed -e "s/ARCH/${ARCH}/" -e "s/VERSION/${PACKER_VERSION}/" ../packer > packer/${PACKER_NAME}/DEBIAN/control
+mkdir -p packer/${PACKER_NAME}/usr/bin
+unzip ../.downloads/${PACKER_FILENAME} -d packer/${PACKER_NAME}/usr/bin
+sudo chown -R root:root packer/${PACKER_NAME}
+
+# terraform
+mkdir -p terraform/${TERRAFORM_NAME}
+sudo chown -R $USER:$USER terraform/${TERRAFORM_NAME}
+rm -rf terraform/${TERRAFORM_NAME}/*
+mkdir -p terraform/${TERRAFORM_NAME}/DEBIAN
+sed -e "s/ARCH/${ARCH}/" -e "s/VERSION/${TERRAFORM_VERSION}/" ../terraform > terraform/${TERRAFORM_NAME}/DEBIAN/control
+mkdir -p terraform/${TERRAFORM_NAME}/usr/bin
+unzip ../.downloads/${TERRAFORM_FILENAME} -d terraform/${TERRAFORM_NAME}/usr/bin
+sudo chown -R root:root terraform/${TERRAFORM_NAME}
+
+cd ..

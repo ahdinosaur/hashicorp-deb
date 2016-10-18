@@ -1,0 +1,15 @@
+#!/bin/sh
+
+. ./vars
+
+mkdir -p .downloads
+cd .downloads
+if ! test -e ${PACKER_FILENAME}
+then
+  wget https://releases.hashicorp.com/packer/${PACKER_VERSION}/${PACKER_FILENAME}
+fi
+if ! test -e ${TERRAFORM_FILENAME}
+then
+  wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/${TERRAFORM_FILENAME}
+fi
+cd ..

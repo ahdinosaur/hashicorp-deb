@@ -1,0 +1,22 @@
+{
+  "name": "hashicorp-deb",
+  "version": "1.0.0",
+  "description": ".deb packages for Hashicorp ecosystem",
+  "scripts": {
+    "download": "./download",
+    "build": "./build",
+    "package": "./package",
+    "install": "./install",
+    "start": "npm run download && npm run build && npm run package && npm run install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahdinosaur/hashicorp-deb.git"
+  },
+  "author": "Mikey <michael.williams@enspiral.com> (http://dinosaur.is)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahdinosaur/hashicorp-deb/issues"
+  },
+  "homepage": "https://github.com/ahdinosaur/hashicorp-deb#readme"
+}

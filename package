@@ -1,0 +1,9 @@
+#!/bin/sh
+
+. ./vars
+
+mkdir -p .packages
+cd .packages
+sudo dpkg-deb --build ../.builds/packer/${PACKER_NAME} .
+sudo dpkg-deb --build ../.builds/terraform/${TERRAFORM_NAME} .
+cd ..
