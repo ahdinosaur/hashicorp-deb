@@ -22,7 +22,7 @@ mkdir -p "${base}/DEBIAN"
 echo "${template}" > "${base}/DEBIAN/control"
 
 mkdir -p "${base}${bin}"
-unzip "${downloads}/${zipfile}" -d "${base}${bin}/${name}"
+unzip "${downloads}/${zipfile}" -d "${base}${bin}"
 sudo chown -R "root:root" "${base}"
 
 cd "${cwd}"

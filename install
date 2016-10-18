@@ -1,7 +1,6 @@
 #!/bin/sh
 
-. ./vars
+__dirname="$(dirname "$(realpath "$0")")"
+. "${__dirname}/context"
 
-sudo dpkg -i .packages/${PACKER_NAME}_${ARCH}.deb
-sudo dpkg -i .packages/${TERRAFORM_NAME}_${ARCH}.deb
-sudo dpkg -i .packages/${VAULT_NAME}_${ARCH}.deb
+sudo dpkg -i "${packages}/${base}_${arch}.deb"
