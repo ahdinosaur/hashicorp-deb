@@ -1,7 +1,0 @@
-Package: packer
-Architecture: ARCH
-Maintainer: Mikey Williams
-Depends:
-Priority: extra
-Version: VERSION
-Description: https://www.packer.io

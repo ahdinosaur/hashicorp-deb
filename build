@@ -1,38 +1,28 @@
 #!/bin/sh
 
-. ./vars
+__dirname="$(dirname "$(realpath "$0")")"
+. "${__dirname}/context"
 
-mkdir -p .builds
-cd .builds
+sudo -v
 
-# packer
-mkdir -p packer/${PACKER_NAME}
-sudo chown -R $USER:$USER packer/${PACKER_NAME}
-rm -rf packer/${PACKER_NAME}/*
-mkdir -p packer/${PACKER_NAME}/DEBIAN
-sed -e "s/ARCH/${ARCH}/" -e "s/VERSION/${PACKER_VERSION}/" ../packer > packer/${PACKER_NAME}/DEBIAN/control
-mkdir -p packer/${PACKER_NAME}/usr/bin
-unzip ../.downloads/${PACKER_FILENAME} -d packer/${PACKER_NAME}/usr/bin
-sudo chown -R root:root packer/${PACKER_NAME}
+mkdir -p "${builds}"
+cd "${builds}"
 
-# terraform
-mkdir -p terraform/${TERRAFORM_NAME}
-sudo chown -R $USER:$USER terraform/${TERRAFORM_NAME}
-rm -rf terraform/${TERRAFORM_NAME}/*
-mkdir -p terraform/${TERRAFORM_NAME}/DEBIAN
-sed -e "s/ARCH/${ARCH}/" -e "s/VERSION/${TERRAFORM_VERSION}/" ../terraform > terraform/${TERRAFORM_NAME}/DEBIAN/control
-mkdir -p terraform/${TERRAFORM_NAME}/usr/bin
-unzip ../.downloads/${TERRAFORM_FILENAME} -d terraform/${TERRAFORM_NAME}/usr/bin
-sudo chown -R root:root terraform/${TERRAFORM_NAME}
+sudo rm -rf "${base}"
 
-# vault
-mkdir -p vault/${VAULT_NAME}
-sudo chown -R $USER:$USER vault/${VAULT_NAME}
-rm -rf vault/${VAULT_NAME}/*
-mkdir -p vault/${VAULT_NAME}/DEBIAN
-sed -e "s/ARCH/${ARCH}/" -e "s/VERSION/${VAULT_VERSION}/" ../vault > vault/${VAULT_NAME}/DEBIAN/control
-mkdir -p vault/${VAULT_NAME}/usr/bin
-unzip ../.downloads/${VAULT_FILENAME} -d vault/${VAULT_NAME}/usr/bin
-sudo chown -R root:root vault/${VAULT_NAME}
+template="Package: ${name}
+Description: ${description}
+Version: ${version}
+Maintainer: ${maintainer}
+Architecture: ${arch}
+Section: base
+Priority: optional"
 
-cd ..
+mkdir -p "${base}/DEBIAN"
+echo "${template}" > "${base}/DEBIAN/control"
+
+mkdir -p "${base}${bin}"
+unzip "${downloads}/${zipfile}" -d "${base}${bin}/${name}"
+sudo chown -R "root:root" "${base}"
+
+cd "${cwd}"
