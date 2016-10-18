@@ -4,3 +4,4 @@
 
 sudo dpkg -i .packages/${PACKER_NAME}_${ARCH}.deb
 sudo dpkg -i .packages/${TERRAFORM_NAME}_${ARCH}.deb
+sudo dpkg -i .packages/${VAULT_NAME}_${ARCH}.deb

@@ -25,4 +25,14 @@ mkdir -p terraform/${TERRAFORM_NAME}/usr/bin
 unzip ../.downloads/${TERRAFORM_FILENAME} -d terraform/${TERRAFORM_NAME}/usr/bin
 sudo chown -R root:root terraform/${TERRAFORM_NAME}
 
+# vault
+mkdir -p vault/${VAULT_NAME}
+sudo chown -R $USER:$USER vault/${VAULT_NAME}
+rm -rf vault/${VAULT_NAME}/*
+mkdir -p vault/${VAULT_NAME}/DEBIAN
+sed -e "s/ARCH/${ARCH}/" -e "s/VERSION/${VAULT_VERSION}/" ../vault > vault/${VAULT_NAME}/DEBIAN/control
+mkdir -p vault/${VAULT_NAME}/usr/bin
+unzip ../.downloads/${VAULT_FILENAME} -d vault/${VAULT_NAME}/usr/bin
+sudo chown -R root:root vault/${VAULT_NAME}
+
 cd ..

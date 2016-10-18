@@ -6,4 +6,5 @@ mkdir -p .packages
 cd .packages
 sudo dpkg-deb --build ../.builds/packer/${PACKER_NAME} .
 sudo dpkg-deb --build ../.builds/terraform/${TERRAFORM_NAME} .
+sudo dpkg-deb --build ../.builds/vault/${VAULT_NAME} .
 cd ..

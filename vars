@@ -10,3 +10,7 @@ export PACKER_FILENAME="packer_${PACKER_VERSION}_${OS}_${ARCH}.zip"
 export TERRAFORM_VERSION="0.7.6"
 export TERRAFORM_NAME="terraform_${TERRAFORM_VERSION}"
 export TERRAFORM_FILENAME="terraform_${TERRAFORM_VERSION}_${OS}_${ARCH}.zip"
+
+export VAULT_VERSION="0.6.2"
+export VAULT_NAME="vault_${VAULT_VERSION}"
+export VAULT_FILENAME="vault_${VAULT_VERSION}_${OS}_${ARCH}.zip"
